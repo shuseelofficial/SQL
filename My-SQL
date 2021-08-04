@@ -1,0 +1,657 @@
+mysql-learning
+1
+01
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+mysql-learning/notes.txt
+
+  
+#MysqlNote
+
+SQL Commands
+01. Database Create
+CREATE DATABASE <DatabaseName>;
+
+02. Database Delete
+DROP  DATABASE <DatabaseName>;
+
+03. To Use Database
+USE <DatabaseName>;
+
+04. To Create Table
+
+CREATE TABLE <TableName>(
+column datatype,
+column datatype,
+column dtatype
+);
+
+Date : 2020-03-23 DateTime : 2020-03-23:10:25:25 
+
+CREATE TABLE student(
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(150) NOT NULL,
+phone VARCHAR(15) NOT NULL,
+birthdate DATE NOT NULL, 
+total_fee decimal(13,2) NOT NULL,
+paid_fee decimal(13,2) NOT NULL,
+isadded datetime,
+);
+
+
+
+
+
+
+04. To Insert Value to Table
+
+Syntax: 
+INSERT INTO <tableName> (column1, column2, column_n)VALUES(value1, value2, value3);
+
+
+
+05. To View All Data of Table
+SELECT * FROM tableName;
+
+
+06. Where Condition
+SELECT * FROM tableName WHERE Condition;
+
+07. Update Data of Database
+
+Syntax: UPDATE table_name SET col1=value1, col2=value2 WHERE Condition;
+
+
+E.g => UPDATE student SET birthdate='1992-02-28' WHERE id=5;
+
+
+
+Difference Between NULL and Empty
+
+NULL=> No Value/Abscence of Value
+Empty=> Value with 0 Length 
+
+
+08. For Unique Data we use DISTINCT
+
+
+09. WHERE: It is used to extract certain data.
+
+Operator:
+
+= : Equal To
+> : Greater 
+< : Smaller
+>=: Greater or Equal
+<=: Smaller or Equal
+!=: Not Equal [<>]
+BETWEEN: Specific Range Data
+IN: Inside Data
+
+
+10. Constraints 
+=> It is used to specify rules in data in table.
+
+NOT NULL => It doesn't accept null
+PRIMARY KEY=> Find unique data in row.
+UNIQUE KEY=> Unique Data
+FOREIGN KEY=> One Table Primary key becomes foreign key
+
+
+
+FOREIGN KEY EXAMPLE
+
+CREATE TABLE contacts(
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL,
+address VARCHAR(255)
+);
+
+
+CREATE TABLE phones(
+contactid int NOT NULL,
+phone VARCHAR(15),
+FOREIGN KEY(contactid) REFERENCES contacts(id)
+)
+
+SELECT name, phone FROM contacts, phones WHERE contacts.id = phones.contactid AND contactid = 4;
+
+11.  SQL AND, OR, NOT
+
+AND: All must be correct
+OR: One must be correct
+NOT: Not True
+
+
+SELECT * FROM contacts WHERE NOT address ='Nepal'
+
+
+12. ORDER BY
+=> It is used to sort data in ascending order or decending order.
+Ascending => ASC 
+Decending => DESC
+
+SELECT * FROM contacts ORDER BY id ASC
+SELECT * FROM contacts ORDER BY id DESC
+SELECT * FROM contacts ORDER BY name DESC
+
+SELECT * FROM contacts WHERE address= 'USA' ORDER BY name
+
+13. DELETE
+=> It is used to delete the record of table.
+
+Syntax: DELETE FROM <tablename> WHERE condition;
+Important: If you ignore WHERE condition 
+
+DELETE FROM contacts WHERE id=7
+
+
+14. SQL Basic function
+
+COUNT() => Count the record 
+AVG() => Average Value
+SUM() => Add the Value
+NOW() => DATETIME
+
+SELECT SUM(paid_fee) FROM student WHERE id>5
+
+SELECT COUNT(name) FROM student
+
+SELECT NOW()
+
+
+15. SQL Command are categorized into:
+- DDL [Data Defination Language] 
+- DML [Data Manipulation Language]
+- DCL [Data Control Language]
+- TCL [TRANSACTION CONTROL LANGUAGE]
+
+- DDL [Data Defination Language] 
+ - CREATE, DROP, RENAME, ALTER
+
+- DML [Data Manipulation Language]
+ - INSERT, UPDATE, DELETE
+
+- DCL [Data Control Language]
+ - GRANT, REVOKE
+
+- TCL [TRANSACTION CONTROL LANGUAGE]
+ - COMMIT, ROLLBACK
+
+
+
+16. SQL LIMIT
+
+=> It is used to select limit data from table.
+ syntax: SELECT * FROM tablename WHERE CONDITION LIMIT 3;
+
+SELECT * FROM contacts LIMIT 3
+Microsoft SQL => SELECT TOP 3 FROM tablename
+
+18. SQL LIKE
+- It helps to serch particular record or pattern.
+
+It uses[wildcard]
+% - It represent multiple character [0,1, a-z, [A-Z]]
+_ - It represent single character
+
+
+Syntax: SELECT colname1, colname2 FROM tablename WHERE contidion LIKE pattern;
+
+LIKe 's%' - All values start with s
+LIKe '%s' - All values end with s
+LIKE '%sa%' - Any Position
+Like '_s' - Find value that have s in second position and must have 2 length.
+Like '_s%' - Find any value that have sa in second position
+LIKE 's%a' - Start with s and end with a
+LIKE 's__' - Start with s and have 3 length.
+
+
+SELECT * FROM student WHERE name LIKE 'b%'
+SELECT * FROM student WHERE name LIKE '__a%'
+
+19. Data Integrity
+=> Data integrity makes our data accurate & consistent. Eg. In phone column, we cannot insert string value.
+
+20. Rename Database & Table
+Database 
+
+Table 
+RENAME TABLE student TO student1
+
+
+21. Show last record of table
+SELECT * FROM contact ORDER BY ID DESC LIMIT 1
+
+22. Show second last record of table
+SELECT * FROM contacts WHERE id = (SELECT MAX(id)-1 FROM contacts)
+SELECT * FROM contacts ORDER BY ID DESC LIMIT 1,1
+
+SELECT * FROM contacts ORDER BY id DESC LIMIT 0, 1;
+
+LIMIT 1
+COUNT
+LIMIT 0, 1
+LIMIT (offset, count)
+
+The offset of first row is 0
+The offset of second row is 1
+The offset of third row is 2
+ 
+23. SQL IN Command 
+It shows record that are inside certain parm.
+
+SELECT colname(s) From tabaleName WHERE coulname IN (sub query)
+SELECT colname(s) From tabaleName WHERE coulname IN (name, name)
+ 
+23. SQL NOT IN Command 
+It shows record that are not inside certain parm.
+
+SELECT colname(s) From tabaleName WHERE coulname NOT IN (name, name)
+
+24. BETWEEN
+It shows record between range
+SELECT * FROM `student` WHERE birthdate BETWEEN '1997-01-01' AND '2000-12-30'
+SELECT * FROM `student` WHERE id BETWEEN 5 AND 7
+
+25. Aliases
+It helps to get different column name, table name
+
+SELECT paid_fee FROM student;
+
+SELECT name AS 'Full Name', phone AS 'Phone No' FROM contacts AS c, phones AS p WHERE c.id = p.contactid AND c.id = '3' 
+
+26. String Concatination
+=>  It is used to join multiple string.
+
+SELECT CONCAT(fname,' ', lname) AS fullname FROM employees
+
+
+27. Some Functions
+
+a. Length - To find the length [
+SELECT LENGTH(fname) FROM employees WHERE eid=1
+
+b. UPPER - To make all text uppercase
+SELECT UPPER(fname) FROM employees WHERE eid=1
+
+c. LOWER- To make all text lowercase
+SELECT LOWER(fname) FROM employees WHERE eid=1
+
+d. TRIM - It remove space from start or end of a string
+SELECT TRIM(' Hello ') AS abc
+
+e. SUBSTRING - It helps to extract some character of a string.
+SELECT SUBSTRING('Apple',1,2) => Ap
+SELECT SUBSTRING('Apple',4,2) => le
+
+f. REPLACE - It helps to replace character from string
+
+SELECT REPLACE('Hello Hii Namaste Salam', 'Hello','Salam')
+
+g. REVERSE - It helps to reverse the string
+SELECT REVERSE('Hello')
+
+h. Today Date
+SELECT CURRENT_DATE()
+
+i. Current Time
+SELECT CURRENT_TIME()
+
+j. Date and Time
+SELECT NOW()
+
+k. ABS - It retuen absolute value of number.
+SELECT ABS(-10000)
+
+l. COUNT - IT helps to count the row.
+SELECT COUNT(fname) FROM employees
+
+m. MAX, MIN, SUM, AVG
+
+n. POWER
+SELECT POWER(2,5)
+
+o. RAND
+SELECT RAND(2)
+
+p. SELECT CEILING(10.1)
+=> 11
+
+q. SELECT FLOOR(10.1)
+=> 10
+r. ROUND()
+=> SELECT ROUND(10.5)
+
+28. JOIN
+=> It helps to get data from multiple table.
+
+Types:
+Inner Join
+Left Join
+Right Join
+Outer Join
+
+CREATE DATABASE phonebook;
+USE DATABASE phonebook;
+CREATE TABLE contact(
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255)
+);
+
+
+CREATE TABLE phone(
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+contactid INT NOT NULL,
+phoneno VARCHAR(15),    
+FOREIGN KEY (contactid) REFERENCES contact(id)
+)
+
+Inner Join [Syntax]: 
+=> It shows all matching record only 
+SELECT columnName[s] FROM table1 INNER JOIN table2 ON table1.columnName = table2.columnName
+ 
+SELECT contact.id, name, phoneno FROM contact INNER JOIN phone ON contact.id= phone.contactid; 
+
+SELECT contact.id, contact.name, phone.phoneno FROM contact JOIN phone ON contact.id= phone.contactid WHERE contact.id = 1
+
+
+Left Join [Syntax]:
+=> It shows all matching record + left table data
+SELECT contact.id, name, phoneno FROM contact LEFT JOIN phone ON contact.id= phone.contactid; 
+
+Right Join [Syntax]:
+=> It shows all matching record + right table data
+SELECT contact.id, name, phoneno FROM contact RIGHT JOIN phone ON contact.id= phone.contactid; 
+
+Full Join [Syntax]:
+=> It shows all record matching + nonmatching
+SELECT contact.id, name, phoneno FROM contact FULL JOIN phone ON contact.id= phone.contactid; 
+
+
+29. Facebook Sample Database
+
+Users [id, username, password, dob, contact, address, gender]
+Posts [postid, posttitle, postbody, iscreated]
+comment [commentid, userid, postid, comment, commentdate]
+
+CREATE DATABASE facebook;
+USE facebook;
+
+CREATE TABLE users(
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+username VARCHAR(255) NOT NULL,
+password VARCHAR(255) NOT NULL,
+dob date NOT NULL,
+contact VARCHAR(14),
+address VARCHAR(255),
+gender enum('M','F','O')
+
+);
+
+CREATE TABLE posts(
+postid INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+title VARCHAR(255) NOT NULL,
+postbody TEXT NOT NULL,
+iscreated datetime NOT NULL DEFAULT NOW()
+
+)
+
+CREATE TABLE comments(
+commentid INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+userid int, 
+postid int, 
+comment VARCHAR(260), 
+commentdated datetime NOT NULL DEFAULT NOW(),
+FOREIGN KEY(userid) REFERENCES users(id),
+FOREIGN KEY(postid)REFERENCES posts(postid)
+);
+
+
+
+30. Facebook Database Question
+1. Find all the comment of post id 1
+SELECT comment FROM comments WHERE postid=1;
+
+2. Find all the comment of post name 'How to be happy?'
+SELECT comment FROM comments INNER JOIN posts ON comments.postid = posts.postid WHERE posts.title = 'How to be happy?'
+
+3. Find username and  all the comment of post id 1
+SELECT users.username, comments.comment FROM users INNER JOIN comments ON users.id = comments.userid WHERE comments.postid = 1
+
+4. SELECT all comments of username ramesh on post title 'how to be happy?'
+
+SELECT comments.comment FROM ((comments JOIN posts ON comments.postid = posts.postid) JOIN users ON users.id = comments.userid) WHERE users.username = 'Ramesh' AND posts.title = 'how to be happy?'
+
+SELF JOIN
+=> When table is joined with same table.
+
+SELECT colName FROM table1 t1, table1 t2 WHERE condition
+
+31. Stored Procedure
+- In SQL by using stored procedure we can save our database code/query and we can reuse it.
+
+Syntax:
+
+
+DELIMITER //
+
+CREATE PROCEDURE getAllPro()
+BEGIN
+SELECT * FROM product;
+END //
+
+DELIMITER ;
+
+
+E.g
+DELIMITER //
+
+CREATE PROCEDURE PROWITHZERO()
+BEGIN
+SELECT product.p_id, product.p_name, product.p_qty, product.p_price, (product.p_price* product.p_qty) FROM product;
+END //
+DELIMITER ;
+
+
+32. Altering the database and tables
+
+To Add New Column
+- ALTER TABLE tableName ADD columnName Datatype;
+ALTER TABLE student1 ADD district VARCHAR(100) AFTER phone
+
+To Delete Column
+- ALTER TABLE tableName DROP COLUMN columnName Datatype;
+ALTER TABLE student1 DROP COLUMN district;
+
+Hosting
+Domain Name [Website Name]
+Domain Name Server [DNS]: It helps to connect from name instead of ip.
+Hosting [Storage Server]
+
+
+Git & GitHub
+
+1. Version Control
+Managment of changes to the document, computer source code and large files.
+Advantage:
+Collaboration
+Backup
+Version Storage
+Data Analyze
+
+
+Git Alternatives: Subversion
+Github Alternatives: Bitbucket, Gitlab
+
+Git
+It is distributed version control tool to manage change of document and source code or version.
+
+Github:
+Github is code hosting platform for cersion control. It lets us to work on project from anywhere.
+ 
+
+Git Commands
+git --version - To check version of git.
+git init - TO Init
+git remote add origin "link"
+git add "filename"
+git add -A => To Add all files
+
+
+Question
+1. TRUNCATE => It will delete all the table data with cache
+2. DDL - To Define Data, CREATE, ALTER, TRUNCATE
+3. DML - Insert, Update, Delte
+4. DCL =>  Grant, Revoke
+5. Query & Subquery [Query inside query]=> 
+6. Data Integrity => Data accuracy and consistancy
+7. AUTO_INCREMENT 
+8. [Constraints] =>PRIMARY KEY, FOREIGN KEY, UNIQUE KEY, DEFULT 
+9. NULL & Empty Diff
+Empty: Value with 0 length
+NULL: NULL
+10. Normalization: Spliting Big Single Table to multiple table for easy.
+11. Store Procedure:   It is the process of storing SQL command for future use. It also accept parameter
+12. MYSQL DEFAULT PORT: 3306
+13. Aggregate Function: AVG(), MAX(), MIN(), SUM(), COUNT()
+14. String Function: LEN(), LOWER(), UPPER(), CONCAT(), REPLACE()
+15. To View Unique Data: DISTINCT
+16. ARRANGE data in descenting: ORDER BY 
+17. Ctrl+ C +> Back to command
+
+33. SQL CASE
+SELECT colName(s)
+CASE
+    WHEN colName Condition THEN 'Statements'
+    WHEN colName ondition THEN 'Statements'
+    ELSE 'Statements'
+END as Name
+FROM TableName
+
+e.g
+SELECT name, paid_fee,
+CASE
+    WHEN paid_fee > 500 THEN 'Great Than 500'
+    WHEN paid_fee > 300 THEN 'Great Than 300'
+    ELSE 'This is else'
+END  AS results
+FROM student1
+
+
+
+34. Stored Procedure With Parameter
+- In SQL by using stored procedure we can save our database code/query and we can reuse it with paramter;
+
+
+DELIMITER //
+
+CREATE PROCEDURE GreaterPaidFee(
+IN amt DECIMAL(13,2) 
+)
+BEGIN
+SELECT * FROM student1 WHERE paid_fee > amt;
+END //
+DELIMITER ; 
+
+CAll GreaterPaidFee(500);
+
+Second Command
+
+DELIMITER //
+
+CREATE PROCEDURE newSP(
+IN amt DECIMAL(13,2),
+IN newamt DECIMAL(13,2) 
+)
+BEGIN
+SELECT * FROM student1 WHERE paid_fee > amt AND paid_fee > newamt;
+END //
+DELIMITER ; 
+
+
+// Other Example 
+CREATE PROCEDURE DetailsBirth(
+IN startdate date,
+IN enddate date 
+)
+BEGIN
+SELECT * FROM student1 WHERE birthdate BETWEEN startdate AND enddate;
+END //
+DELIMITER ; 
+
+
+// Other Command
+
+DELIMITER //
+
+CREATE PROCEDURE Hello(
+
+)
+BEGIN
+SELECT * FROM student1 WHERE birthdate BETWEEN '1995-01-01' AND '2020-01-01';
+END //
+DELIMITER ; 
+
+
+
+
+Final Command
+
+DELIMITER //
+
+CREATE PROCEDURE Hellos(IN startdate date,IN enddate date)
+BEGIN
+SELECT * FROM student1 WHERE birthdate BETWEEN startdate AND enddate;
+END //
+DELIMITER ; 
+
+CALL hellos('1990-01-01','2020-01-01');
+
+
+35. Views :Views helps to show the vitual table on the result.
+
+Syntax: CREATE VIEW view_name AS "SELECT STAT WITHOUT DOBLUE QUOTE"
+
+CREATE VIEW usastudent AS SELECT * FROM student1 WHERE country='USA';
+
+To View: SELECT * FROM `usastudent`
+
+Store Procedure
+- It accept paramter
+- Can contain sevral statements like if, CASE, while 
+Views
+- It doesnot accept paramter
+- Can contain sevral SE
+
+
+Eg. 
+CREATE VIEW usastudents AS SELECT name, phone FROM student1 WHERE country='USA';
+
+
+To Edit or Replace View
+Syntax: CREATE OR REPLACE VIEW view_name AS "SELECT STAT WITHOUT DOBLUE QUOTE"
+
+Eg. CREATE OR REPLACE VIEW usastudents AS SELECT id, name, phone FROM student1 WHERE country='USA';
+
+CREATE VIEW showage as SELECT id, name, FLOOR(DATEDIFF(CURRENT_DATE(), birthdate)/365) AS ags FROM student1;
+
+MYSQL USER
+=> It is the name of person who have certain permission on database.
+
+Main User/ Root User: All Permission []
+
+
+
+
+
+
+
+
+
