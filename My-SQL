@@ -329,6 +329,27 @@ q. SELECT FLOOR(10.1)
 r. ROUND()
 => SELECT ROUND(10.5)
 
+Primary Key
+=> Primary Key is a constraint that uniquely identifies each record.
+1. It cannot by null.
+2. It must be unique.
+AUTO_INCREMENT
+
+23. CREATE TABLE person(
+id INT PRIMARY KEY AUTO_INCREMENT,
+name VARCHAR(100) NOT NULL,
+gender enum ('M','F','O'),
+is_added datetime DEFAULT NOW()
+);
+
+24. CREATE TABLE contact(
+id INT PRIMARY KEY AUTO_INCREMENT,
+person INT NOT NULL,
+phone VARCHAR(12) NOT NULL,
+is_added datetime DEFAULT NOW(),
+FOREIGN KEY (person) REFERENCES person(id)
+);
+
 28. JOIN
 => It helps to get data from multiple table.
 
